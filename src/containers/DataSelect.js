@@ -1,7 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Form, Col, Card, Row, Button, Container } from "react-bootstrap";
-import UrlContext from "../context/UrlContext";
+import { Form, Col, Row, Button } from "react-bootstrap";
+import SubBreeds from "../components/SubBreeds";
+import NumberSelect from "../components/NumberSelect";
+import ImageResults from "../components/ImageResults";
+import BreedSelect from "../components/BreedSelect";
+import Conditions from "../components/Conditions";
 
 // const delay = 5
 const DataSelect = () => {
@@ -13,59 +17,51 @@ const DataSelect = () => {
   const [number, setNumber] = useState(1);
   const [imagePulled, setImagePulled] = useState([]);
   const [requiredForm, setRequiredForm] = useState(false);
-  const [requiredStyle, setRequiredStyle] = useState({});
+  const [imagesCount, setImagesCount] = useState(false);
 
-  const { url, setUrl } = useContext(UrlContext);
-
-  const styles = {
-    objectFit: "cover",
-    borderRadius: 15,
-    height: "250px",
-    marginTop: "25px",
-  };
-
-  const numbersArray = Array.from(Array(50).keys(), (x) => x + 1);
-  //add loading
+  //fetching of all dog breeds and dog breeds available
+  //this ensures list available is upto date 
   useEffect(() => {
     const fetchBreed = async () => {
-      // const timer = setTimeout( () => {
-
-      //   return () => clearTimeout(timer)
-      // }, 1000)
       const { data } = await axios.get("https://dog.ceo/api/breeds/list/all");
+      //setting into state to populate list drop down
       setBreed(Object.keys(data.message));
+      //storing full list to avoid another api call for sub breed
       setAllDogs(data.message);
-      console.log("breed: ", breed);
     };
 
     fetchBreed();
   }, []);
+
+  // set state of selected breed on change of breed drop down
+  //populate sub breed list if available
   const breedSelector = (e) => {
     let clickValue = e.target.value;
     setSelectedBreed(clickValue);
+    //validation to make sure dog breed is selected
     if (clickValue === "0") {
       setRequiredForm(true);
       console.log(clickValue);
     } else {
       setRequiredForm(false);
-
-      console.log("else: ", clickValue);
       setSubBreed(Object.values(allDogs[clickValue]));
     }
   };
+  // set state of selected sub breed on change of sub breed drop down list
   const subBreedSelector = (e) => {
     let clickValue = e.target.value;
     setSelectedSubBreed(clickValue);
-    console.log(e.target.value);
   };
+  // set state of selected sub breed on change of sub breed drop down list
   const numberSelector = (e) => {
     let clickValue = e.target.value;
     setNumber(clickValue);
   };
 
+  //api call for dog images based on selections made on form submit
   const urlSubmit = async (e) => {
     e.preventDefault();
-
+    // validation to make sure breed is selected
     if (
       selectedBreed[0] == "Select One..." ||
       selectedBreed[0] == "select" ||
@@ -73,107 +69,70 @@ const DataSelect = () => {
     ) {
       setRequiredForm(true);
     } else if (selectedSubBreed === "" || selectedSubBreed === "Optional") {
-      let url1 = `https://dog.ceo/api/breed/${selectedBreed}/images/random/${number}`;
-
-      setUrl(url1);
-      const { data } = await axios.get(url1);
+      //api call if only breed is selected
+      const { data } = await axios.get(
+        `https://dog.ceo/api/breed/${selectedBreed}/images/random/${number}`
+      );
       setImagePulled(data.message);
+      if (data.message.length == number) {
+        setImagesCount(false);
+      } else {
+        setImagesCount(true);
+      }
     } else {
-      console.log("subBreed URL Select: ", selectedSubBreed);
-      let url2 = `https://dog.ceo/api/breed/${selectedBreed}/${selectedSubBreed}/images/random/${number}`;
-
-      setUrl(url2);
-      const { data } = await axios.get(url2);
+      //api call if sub breed is selected as well
+      const { data } = await axios.get(
+        `https://dog.ceo/api/breed/${selectedBreed}/${selectedSubBreed}/images/random/${number}`
+      );
       setImagePulled(data.message);
+      if (data.message.length == number) {
+        setImagesCount(false);
+      } else {
+        setImagesCount(true);
+      }
     }
   };
   return (
     <div>
       <Form onSubmit={urlSubmit}>
         <Row>
-          <Col xs>
-            <Card.Title>Breed</Card.Title>
-            <Form.Select
-              style={requiredForm ? { formSelectBorderColor: "red", borderColor: "red" } : null}
-              onChange={(event) => {
-                breedSelector(event);
-              }}
-            >
-              <option value="0" key="0" id="select">
-                Select One...
-              </option>
-              {breed.length &&
-                breed.map((dog) => (
-                  <option key={dog} value={dog}>
-                    {dog}
-                  </option>
-                ))}
-            </Form.Select>
-          </Col>
+          {/* list drop down that shows full list of breeds available with conditions that highlight red if non selected on submit */}
+          <BreedSelect
+            requiredForm={requiredForm}
+            breedSelector={breedSelector}
+            breed={breed}
+          />
 
-          <Col lg="2">
-            <Card.Title>Sub Breed</Card.Title>
-            <Form.Select
-              onChange={(event) => {
-                subBreedSelector(event);
-              }}
-            >
-              <option>Optional</option>
-              {subBreed.length ? (
-                subBreed.map((sub) => (
-                  <option value={sub} key={sub}>
-                    {sub}
-                  </option>
-                ))
-              ) : (
-                <option disabled>No sub breeds available </option>
-              )}
-            </Form.Select>
-          </Col>
+          {/* conditional list drop down that hows sub breed if available */}
+          <SubBreeds subBreed={subBreed} subBreedSelector={subBreedSelector} />
 
-          <Col>
-            <Card.Title>Number of images</Card.Title>
-            <Form.Select
-              onChange={(event) => {
-                numberSelector(event);
-              }}
-            >
-              {numbersArray.length &&
-                numbersArray.map((num) => (
-                  <option key={num} value={num}>
-                    {num}
-                  </option>
-                ))}
-            </Form.Select>
-          </Col>
+          {/* list drop down with numbers from 1 - 50 */}
+          <NumberSelect numberSelector={numberSelector} />
+
           <Col className=" d-flex">
-            <Button
-              variant="secondary"
-              className="mt-auto"
-              type="submit"
-              // onClick={(event) => {
-              //   urlSubmit(event);
-              // }}
-            >
+            <Button variant="secondary" className="mt-auto" type="submit">
               View Images
             </Button>
           </Col>
         </Row>
       </Form>
-      <Row>
-        {requiredForm ? (
-          <Form.Label style={{ color: "red" }}>
-            Please select a breed
-          </Form.Label>
-        ) : null}
-      </Row>
-      <Row>
-        {imagePulled.map((img, index) => (
-          <Col lg="3">
-            <Card.Img style={styles} src={img} key={"img" + index} />
-          </Col>
-        ))}
-      </Row>
+
+      {/* conditional text to shows user that breed must be selected */}
+      <Conditions
+        condition={requiredForm}
+        color="red"
+        text="Please select a breed"
+      />
+
+      {/* conditional text to shows user that number of images found is limited */}
+      <Conditions
+        condition={imagesCount}
+        color="green"
+        text={`Only able to find ${imagePulled.length}`}
+      />
+
+      {/* row for images found */}
+      <ImageResults imagePulled={imagePulled} />
     </div>
   );
 };
