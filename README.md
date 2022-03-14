@@ -1,5 +1,7 @@
 # Random Dog Finder
-Using the [Dog Ceo](https://dog.ceo/) api fetch a number of dog images based on breed and number selected
+Using the [Dog Ceo](https://dog.ceo/) api fetch a number of dog images based on breed and number selected.
+</br>
+</br>
 **setup:**
 - npm i
 - npm start
@@ -52,6 +54,6 @@ If a dog has a sub breed;
 
 ## Further Work
 - remove sub breed state, can use breed.value instead
-- test scripts - api call should return {data}
+- test scripts - eg. api call should return {data}
 - separate api call into services folder
 - separate css into file
