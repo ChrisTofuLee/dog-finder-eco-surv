@@ -1,5 +1,4 @@
 # Random Dog Finder
-
 Using the [Dog Ceo](https://dog.ceo/) api fetch a number of dog images based on breed and number selected
 **setup:**
 - npm i
