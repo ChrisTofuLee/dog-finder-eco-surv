@@ -1,70 +1,49 @@
-# Getting Started with Create React App
+# Random Dog Finder
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Using the [Dog Ceo](https://dog.ceo/) api fetch a number of dog images based on breed and number selected
 
-## Available Scripts
+## Tech
 
-In the project directory, you can run:
+- [React](https://reactjs.org/): js library used
+- [Dog Ceo](https://dog.ceo/): api for dog images
+- [React Bootstrap](https://react-bootstrap.github.io/): css library for react
+- [Axios](https://axios-http.com/docs/intro): promise-based HTTP Client used for api calls
 
-### `npm start`
+## Functionality
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+**Select a breed:**
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- As a user
+- I am able to select a breed from the _breed select_
+- so that I am able to retrieve images relating to that breed
 
-### `npm test`
+If a dog has a sub breed;
+**Select a sub breed**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- As a user
+- I am able to select a sub breed from the _sub breed select_
+- so that I am able to retrieve images relating to that sub breed
 
-### `npm run build`
+**Select a number of random images**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- As a user
+- I am able to select a number from the _number select_
+- so that I am able to define how many images return
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**View Images**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- As a user
+- I am able select a breed and number of images and can _View Images_
+- so that I can view the amount of images of the breed selected
 
-### `npm run eject`
+**If an input field is missing data**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- As a user
+- When I click _View Images_
+- show a red border around any input field with missing data
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**If image count doesn't match images fetched**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- As a user
+- When I click _View Images_
+- show a green text when there isn't the amount images
