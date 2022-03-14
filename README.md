@@ -47,3 +47,9 @@ If a dog has a sub breed;
 - As a user
 - When I click _View Images_
 - show a green text when there isn't the amount images
+
+## Further Work
+- remove sub breed state, can use breed.value instead
+- test scripts - api call should return {data}
+- separate api call into services folder
+- separate css into file

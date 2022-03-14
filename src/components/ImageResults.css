@@ -1,0 +1,6 @@
+#images-card {
+    object-fit: cover;
+    border-radius: 15;
+    height: 250px;
+    margin-top: 25px;
+}

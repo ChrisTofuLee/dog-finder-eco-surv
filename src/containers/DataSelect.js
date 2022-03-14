@@ -18,9 +18,10 @@ const DataSelect = () => {
   const [imagePulled, setImagePulled] = useState([]);
   const [requiredForm, setRequiredForm] = useState(false);
   const [imagesCount, setImagesCount] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   //fetching of all dog breeds and dog breeds available
-  //this ensures list available is upto date 
+  //this ensures list available is upto date
   useEffect(() => {
     const fetchBreed = async () => {
       const { data } = await axios.get("https://dog.ceo/api/breeds/list/all");
